@@ -1,16 +1,9 @@
 [
   {
-    "company": "Empresa Tech",
-    "role": "Frontend Developer",
-    "startDate": "2022",
+    "company": "Freelancer",
+    "role": "Desarrollador Full Stack",
+    "startDate": "2025",
     "endDate": "Presente",
-    "description": "Desarrollo y mantenimiento de aplicaciones web utilizando las mejores prácticas de la industria y frameworks modernos. Enfoque en la accesibilidad y el rendimiento."
-  },
-  {
-    "company": "Startup Innovadora",
-    "role": "Desarrollador Web Junior",
-    "startDate": "2020",
-    "endDate": "2022",
-    "description": "Colaboración en el desarrollo de la plataforma principal, implementación de interfaces de usuario y optimización de flujos de trabajo."
+    "description": "Desarrollo de un sistema de gestion de turnos de espera para la tienda departamental Liverpool del estado de Tabasco, con el objetivo de reducir los tiempos de espera y mejorar la experiencia del cliente."
   }
 ]

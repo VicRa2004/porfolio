@@ -1,26 +1,25 @@
 [
   {
-    "title": "E-commerce Analytics Platform",
-    "description": "Plataforma de análisis de ventas en tiempo real. Permite visualizar métricas clave mediante gráficos interactivos y reportes exportables.",
-    "technologies": ["React", "TypeScript", "Tailwind CSS", "Node.js"],
+    "title": "Sistema Ganadero",
+    "description": "Plataforma de gestión de ganado para pequeños productores. Permite gestionar el inventario, la producción y las ventas de ganado.",
+    "technologies": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express"],
     "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     "link": "#",
-    "repo": "#"
+    "repo": "https://github.com/VicRa2004/sistema-ganado-front-3"
   },
   {
-    "title": "Sistema de Gestión de Tareas",
-    "description": "Aplicación web tipo Kanban para equipos ágiles. Incluye arrastrar y soltar, asignación de roles y notificaciones en tiempo real.",
-    "technologies": ["Vue", "Astro", "Supabase"],
-    "image": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=800&q=80",
+    "title": "Invitacion de boda digital.",
+    "description": "Invitacion de boda digital realizada para una pareja de amigos. Permite confirmar asistencia y ver la ubicación de la ceremonia y la recepción.",
+    "technologies": ["NextJS", "React", "TypeScript", "CSS Puro"],
+    "image": "/invitacion-boda.png",
     "link": "#",
-    "repo": "#"
-  },
-  {
-    "title": "App de Finanzas Personales",
-    "description": "Herramienta PWA para registrar gastos, presupuestos y categorizar transacciones automáticamente mediante IA.",
-    "technologies": ["JavaScript", "HTML", "CSS"],
-    "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
+    "repo": "https://github.com/VicRa2004/invitacion-boda-2"
+  }, {
+    "title": "Hexacore",
+    "description": "Plantilla para pogramadores para poder trabajar con Arquitectura Hexagonal con una API de express y front de react.",
+    "technologies": ["TypeScript", "Node.js", "Express", "PostgreSQL"],
+    "image": "/hexacore.png",
     "link": "#",
-    "repo": "#"
+    "repo": "https://github.com/VicRa2004/Hexacore"
   }
 ]
