@@ -105,3 +105,19 @@ i {
   align-items: center;
   justify-content: center;
 }
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+
+  section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-lg);
+  }
+}

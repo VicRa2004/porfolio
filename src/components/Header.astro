@@ -10,11 +10,14 @@ import personalData from '../data/personal.json';
         <span>{personalData.name}</span>
       </a>
     </div>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="#experiencia"><i class="ph ph-briefcase"></i> Experiencia</a></li>
-        <li><a href="#proyectos"><i class="ph ph-folder-notch-open"></i> Proyectos</a></li>
-        <li><a href="#habilidades"><i class="ph ph-cpu"></i> Habilidades</a></li>
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" id="menu-toggle">
+      <i class="ph ph-list"></i>
+    </button>
+    <nav class="nav-container">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#experiencia" class="nav-item"><i class="ph ph-briefcase"></i> Experiencia</a></li>
+        <li><a href="#proyectos" class="nav-item"><i class="ph ph-folder-notch-open"></i> Proyectos</a></li>
+        <li><a href="#habilidades" class="nav-item"><i class="ph ph-cpu"></i> Habilidades</a></li>
       </ul>
     </nav>
   </div>
@@ -35,6 +38,7 @@ import personalData from '../data/personal.json';
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* important for absolute positioning of nav-container */
   }
 
   .logo a {
@@ -49,6 +53,21 @@ import personalData from '../data/personal.json';
   .logo-icon {
     color: var(--accent-color);
     font-size: 1.5rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    transition: color 0.2s ease;
+  }
+
+  .menu-toggle:hover {
+    color: var(--accent-color);
   }
 
   .nav-links {
@@ -73,4 +92,96 @@ import personalData from '../data/personal.json';
   .nav-links a i {
     font-size: 1.1rem;
   }
+
+  @media (max-width: 768px) {
+    .header {
+      padding: var(--spacing-md) 0;
+    }
+
+    .menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-container {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--bg-surface);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid var(--border-color);
+      
+      /* Toggle logic */
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      margin-top: var(--spacing-sm);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+
+    .nav-container.open {
+      max-height: 300px;
+      opacity: 1;
+      padding: var(--spacing-md);
+    }
+
+    .nav-links {
+      flex-direction: column;
+      gap: var(--spacing-md);
+      align-items: flex-start;
+      width: 100%;
+    }
+    
+    .nav-links a {
+      font-size: 1rem;
+      width: 100%;
+      padding: var(--spacing-xs) 0;
+    }
+  }
 </style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navContainer = document.querySelector('.nav-container');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    if (menuToggle && navContainer) {
+      menuToggle.addEventListener('click', () => {
+        navContainer.classList.toggle('open');
+        const isOpen = navContainer.classList.contains('open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        
+        // Cambiar el icono
+        const icon = menuToggle.querySelector('i');
+        if (icon) {
+          if (isOpen) {
+            icon.classList.remove('ph-list');
+            icon.classList.add('ph-x');
+          } else {
+            icon.classList.remove('ph-x');
+            icon.classList.add('ph-list');
+          }
+        }
+      });
+
+      // Cerrar el menú al hacer clic en un enlace
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            navContainer.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            const icon = menuToggle.querySelector('i');
+            if (icon) {
+              icon.classList.remove('ph-x');
+              icon.classList.add('ph-list');
+            }
+          }
+        });
+      });
+    }
+  });
+</script>
