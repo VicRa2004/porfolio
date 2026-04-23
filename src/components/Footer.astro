@@ -5,10 +5,18 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container footer-content">
-    <p>&copy; {year} {personalData.name}. Diseño Minimalista.</p>
-    <div class="footer-links">
+    <div class="footer-info">
+      <a href="/" class="footer-logo">
+        <i class="ph-fill ph-code"></i> {personalData.name}
+      </a>
+      <p>&copy; {year} Construido con código y <i class="ph-fill ph-coffee"></i>.</p>
+    </div>
+    
+    <div class="footer-socials">
       {personalData.socials.map((social) => (
-        <a href={social.url} target="_blank" rel="noopener noreferrer">{social.name}</a>
+        <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+          <i class={social.icon}></i>
+        </a>
       ))}
     </div>
   </div>
@@ -18,6 +26,7 @@ const year = new Date().getFullYear();
   .footer {
     padding: var(--spacing-xl) 0;
     border-top: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
     margin-top: var(--spacing-xxl);
   }
 
@@ -25,34 +34,63 @@ const year = new Date().getFullYear();
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-md);
-    text-align: center;
+    gap: var(--spacing-lg);
   }
 
   @media (min-width: 600px) {
     .footer-content {
       flex-direction: row;
       justify-content: space-between;
-      text-align: left;
     }
+  }
+
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  @media (min-width: 600px) {
+    .footer-info {
+      align-items: flex-start;
+    }
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+  
+  .footer-logo i {
+    color: var(--accent-color);
   }
 
   .footer p {
     font-size: 0.85rem;
     color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
-  .footer-links {
+  .footer-socials {
     display: flex;
     gap: var(--spacing-md);
   }
 
-  .footer-links a {
-    font-size: 0.85rem;
+  .footer-socials a {
+    font-size: 1.5rem;
     color: var(--text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
   }
 
-  .footer-links a:hover {
-    color: var(--text-primary);
+  .footer-socials a:hover {
+    color: var(--accent-color);
+    transform: translateY(-2px);
   }
 </style>

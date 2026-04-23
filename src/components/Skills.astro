@@ -3,17 +3,23 @@ import skillsData from '../data/skills.json';
 ---
 
 <section id="habilidades" class="animate-fade-in delay-1">
-  <h2 class="section-title">Habilidades y Tecnologías</h2>
+  <h2 class="section-title"><i class="ph-duotone ph-cpu"></i> Habilidades y Tecnologías</h2>
   
   <div class="skills-container">
     {skillsData.map((category) => (
-      <div class="skill-category">
-        <h3 class="category-title">{category.category}</h3>
-        <ul class="skills-list">
+      <div class="skill-card">
+        <div class="category-header">
+          <i class={category.icon}></i>
+          <h3 class="category-title">{category.category}</h3>
+        </div>
+        <div class="skills-grid">
           {category.items.map((item) => (
-            <li>{item}</li>
+            <div class="skill-item">
+              <i class={`${item.icon} colored`}></i>
+              <span>{item.name}</span>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     ))}
   </div>
@@ -23,40 +29,70 @@ import skillsData from '../data/skills.json';
   .skills-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-lg);
   }
 
-  @media (min-width: 600px) {
+  @media (min-width: 768px) {
     .skills-container {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .category-title {
-    font-size: 1.2rem;
-    margin-bottom: var(--spacing-md);
+  .skill-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .skill-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-sm);
     border-bottom: 1px solid var(--border-color);
   }
 
-  .skills-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
+  .category-header i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
   }
 
-  .skills-list li {
+  .category-title {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
     font-size: 0.95rem;
     color: var(--text-secondary);
-    position: relative;
-    padding-left: 1.2rem;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s ease;
   }
 
-  .skills-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--text-tertiary);
+  .skill-item:hover {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+  }
+
+  .skill-item i {
+    font-size: 1.2rem;
   }
 </style>

@@ -3,66 +3,109 @@ import experienceData from '../data/experience.json';
 ---
 
 <section id="experiencia" class="animate-fade-in delay-2">
-  <h2 class="section-title">Experiencia</h2>
+  <h2 class="section-title"><i class="ph-duotone ph-briefcase"></i> Experiencia</h2>
   
-  <div class="experience-list">
+  <div class="timeline">
     {experienceData.map((job) => (
-      <article class="job">
-        <div class="job-meta">
-          <span class="dates">{job.startDate} — {job.endDate}</span>
+      <article class="job-card">
+        <div class="job-header">
+          <div>
+            <h3 class="role">{job.role}</h3>
+            <h4 class="company"><i class="ph ph-buildings"></i> {job.company}</h4>
+          </div>
+          <span class="dates"><i class="ph ph-calendar-blank"></i> {job.startDate} — {job.endDate}</span>
         </div>
-        <div class="job-details">
-          <h3 class="company">{job.company}</h3>
-          <h4 class="role">{job.role}</h4>
-          <p class="description">{job.description}</p>
-        </div>
+        <p class="description">{job.description}</p>
       </article>
     ))}
   </div>
 </section>
 
 <style>
-  .experience-list {
+  .timeline {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-lg);
+    position: relative;
   }
 
-  .job {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-color);
+  }
+
+  .job-card {
+    position: relative;
+    padding-left: var(--spacing-xl);
+  }
+
+  .job-card::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: 3px solid var(--accent-color);
+  }
+
+  .job-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   @media (min-width: 600px) {
-    .job {
-      grid-template-columns: 200px 1fr;
-      gap: var(--spacing-xl);
+    .job-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
     }
+  }
+
+  .role {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+  }
+
+  .company {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .dates {
     font-size: 0.85rem;
     color: var(--text-tertiary);
-    font-family: monospace;
-    letter-spacing: 0.05em;
-  }
-
-  .company {
-    font-size: 1.5rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .role {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    font-family: var(--font-body);
-    font-weight: 400;
-    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: var(--bg-surface);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
   }
 
   .description {
     color: var(--text-secondary);
     font-size: 0.95rem;
+    background-color: var(--bg-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--spacing-sm);
   }
 </style>

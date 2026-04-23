@@ -18,6 +18,12 @@ const { title, description = "Portafolio personal" } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		
+		<!-- Devicon for tech icons -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+		
+		<!-- Phosphor Icons for UI -->
+		<script src="https://unpkg.com/@phosphor-icons/web"></script>
 	</head>
 	<body>
 		<slot />

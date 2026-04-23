@@ -5,13 +5,16 @@ import personalData from '../data/personal.json';
 <header class="header animate-fade-in">
   <div class="container header-content">
     <div class="logo">
-      <a href="/">{personalData.name}</a>
+      <a href="/">
+        <i class="ph-fill ph-code logo-icon"></i>
+        <span>{personalData.name}</span>
+      </a>
     </div>
     <nav>
       <ul class="nav-links">
-        <li><a href="#experiencia">Experiencia</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#experiencia"><i class="ph ph-briefcase"></i> Experiencia</a></li>
+        <li><a href="#proyectos"><i class="ph ph-folder-notch-open"></i> Proyectos</a></li>
+        <li><a href="#habilidades"><i class="ph ph-cpu"></i> Habilidades</a></li>
       </ul>
     </nav>
   </div>
@@ -19,13 +22,13 @@ import personalData from '../data/personal.json';
 
 <style>
   .header {
-    padding: var(--spacing-lg) 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md) 0;
     position: sticky;
     top: 0;
-    background-color: rgba(250, 250, 250, 0.8);
-    backdrop-filter: blur(8px);
+    background-color: rgba(248, 250, 252, 0.85);
+    backdrop-filter: blur(12px);
     z-index: 100;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   }
 
   .header-content {
@@ -36,9 +39,16 @@ import personalData from '../data/personal.json';
 
   .logo a {
     font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+  
+  .logo-icon {
+    color: var(--accent-color);
     font-size: 1.5rem;
-    font-weight: 600;
-    font-style: italic;
   }
 
   .nav-links {
@@ -49,26 +59,18 @@ import personalData from '../data/personal.json';
 
   .nav-links a {
     font-size: 0.9rem;
+    font-weight: 500;
     color: var(--text-secondary);
-    position: relative;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--text-primary);
-    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
   }
 
   .nav-links a:hover {
-    color: var(--text-primary);
+    color: var(--accent-color);
   }
-
-  .nav-links a:hover::after {
-    width: 100%;
+  
+  .nav-links a i {
+    font-size: 1.1rem;
   }
 </style>

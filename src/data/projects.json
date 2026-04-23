@@ -1,22 +1,25 @@
 [
   {
-    "title": "E-commerce Minimalista",
-    "description": "Una tienda en línea con diseño limpio y proceso de pago simplificado, enfocada en la experiencia del usuario.",
-    "technologies": ["Astro", "React", "CSS"],
+    "title": "E-commerce Analytics Platform",
+    "description": "Plataforma de análisis de ventas en tiempo real. Permite visualizar métricas clave mediante gráficos interactivos y reportes exportables.",
+    "technologies": ["React", "TypeScript", "Tailwind CSS", "Node.js"],
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     "link": "#",
     "repo": "#"
   },
   {
-    "title": "Dashboard de Analíticas",
-    "description": "Panel de control para visualizar datos complejos en gráficos simples y fáciles de entender.",
-    "technologies": ["Vue", "TypeScript", "TailwindCSS"],
+    "title": "Sistema de Gestión de Tareas",
+    "description": "Aplicación web tipo Kanban para equipos ágiles. Incluye arrastrar y soltar, asignación de roles y notificaciones en tiempo real.",
+    "technologies": ["Vue", "Astro", "Supabase"],
+    "image": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=800&q=80",
     "link": "#",
     "repo": "#"
   },
   {
-    "title": "Gestor de Tareas Personal",
-    "description": "Aplicación web progresiva (PWA) para organizar tareas diarias con un enfoque minimalista sin distracciones.",
+    "title": "App de Finanzas Personales",
+    "description": "Herramienta PWA para registrar gastos, presupuestos y categorizar transacciones automáticamente mediante IA.",
     "technologies": ["JavaScript", "HTML", "CSS"],
+    "image": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
     "link": "#",
     "repo": "#"
   }
