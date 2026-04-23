@@ -1,0 +1,100 @@
+---
+import projectsData from '../data/projects.json';
+---
+
+<section id="proyectos" class="animate-fade-in delay-3">
+  <h2 class="section-title">Proyectos Destacados</h2>
+  
+  <div class="projects-grid">
+    {projectsData.map((project) => (
+      <article class="project-card">
+        <div class="project-content">
+          <h3 class="project-title">{project.title}</h3>
+          <p class="project-description">{project.description}</p>
+          <ul class="tech-list">
+            {project.technologies.map((tech) => (
+              <li>{tech}</li>
+            ))}
+          </ul>
+        </div>
+        <div class="project-links">
+          <a href={project.link} target="_blank" rel="noopener noreferrer">Ver Proyecto</a>
+          <a href={project.repo} target="_blank" rel="noopener noreferrer">Código Fuente</a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  @media (min-width: 600px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .project-card {
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .project-card:hover {
+    border-color: var(--text-primary);
+    transform: translateY(-4px);
+  }
+
+  .project-title {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .project-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    list-style: none;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .tech-list li {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: auto;
+  }
+
+  .project-links a {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.1rem;
+  }
+
+  .project-links a:hover {
+    border-bottom-color: var(--text-primary);
+  }
+</style>

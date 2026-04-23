@@ -1,0 +1,62 @@
+---
+import skillsData from '../data/skills.json';
+---
+
+<section id="habilidades" class="animate-fade-in delay-1">
+  <h2 class="section-title">Habilidades y Tecnologías</h2>
+  
+  <div class="skills-container">
+    {skillsData.map((category) => (
+      <div class="skill-category">
+        <h3 class="category-title">{category.category}</h3>
+        <ul class="skills-list">
+          {category.items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  @media (min-width: 600px) {
+    .skills-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .category-title {
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .skills-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .skills-list li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.2rem;
+  }
+
+  .skills-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-tertiary);
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+import personalData from '../data/personal.json';
+---
+
+<section class="hero animate-fade-in delay-1">
+  <div class="hero-content">
+    <p class="greeting">Hola, soy</p>
+    <h1 class="title">{personalData.name}</h1>
+    <h2 class="role">{personalData.role}</h2>
+    <p class="bio">{personalData.bio}</p>
+    
+    <div class="actions">
+      <a href={`mailto:${personalData.email}`} class="btn btn-primary">Contáctame</a>
+      <div class="socials">
+        {personalData.socials.map((social) => (
+          <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link">
+            {social.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .greeting {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .title {
+    font-size: 4.5rem;
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
+  }
+
+  .role {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-weight: 400;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .bio {
+    font-size: 1.1rem;
+    color: var(--text-tertiary);
+    max-width: 600px;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+  }
+
+  .socials {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .social-link {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 0.3s ease;
+  }
+
+  .social-link:hover {
+    color: var(--text-primary);
+    text-decoration-color: var(--text-primary);
+  }
+</style>

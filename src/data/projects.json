@@ -1,0 +1,23 @@
+[
+  {
+    "title": "E-commerce Minimalista",
+    "description": "Una tienda en línea con diseño limpio y proceso de pago simplificado, enfocada en la experiencia del usuario.",
+    "technologies": ["Astro", "React", "CSS"],
+    "link": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Dashboard de Analíticas",
+    "description": "Panel de control para visualizar datos complejos en gráficos simples y fáciles de entender.",
+    "technologies": ["Vue", "TypeScript", "TailwindCSS"],
+    "link": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Gestor de Tareas Personal",
+    "description": "Aplicación web progresiva (PWA) para organizar tareas diarias con un enfoque minimalista sin distracciones.",
+    "technologies": ["JavaScript", "HTML", "CSS"],
+    "link": "#",
+    "repo": "#"
+  }
+]

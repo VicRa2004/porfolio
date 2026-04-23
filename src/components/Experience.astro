@@ -1,0 +1,68 @@
+---
+import experienceData from '../data/experience.json';
+---
+
+<section id="experiencia" class="animate-fade-in delay-2">
+  <h2 class="section-title">Experiencia</h2>
+  
+  <div class="experience-list">
+    {experienceData.map((job) => (
+      <article class="job">
+        <div class="job-meta">
+          <span class="dates">{job.startDate} — {job.endDate}</span>
+        </div>
+        <div class="job-details">
+          <h3 class="company">{job.company}</h3>
+          <h4 class="role">{job.role}</h4>
+          <p class="description">{job.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .job {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  @media (min-width: 600px) {
+    .job {
+      grid-template-columns: 200px 1fr;
+      gap: var(--spacing-xl);
+    }
+  }
+
+  .dates {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    font-family: monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .company {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .role {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-weight: 400;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+</style>

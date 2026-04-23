@@ -1,0 +1,19 @@
+{
+  "name": "Victor",
+  "role": "Desarrollador de Software",
+  "bio": "Soy un desarrollador apasionado por crear interfaces limpias, funcionales y minimalistas. Me encanta aprender nuevas tecnologías y construir herramientas que resuelvan problemas reales.",
+  "email": "victor@example.com",
+  "location": "Ciudad, País",
+  "socials": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com",
+      "icon": "github"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com",
+      "icon": "linkedin"
+    }
+  ]
+}

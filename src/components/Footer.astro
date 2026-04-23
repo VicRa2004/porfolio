@@ -1,0 +1,58 @@
+---
+import personalData from '../data/personal.json';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-content">
+    <p>&copy; {year} {personalData.name}. Diseño Minimalista.</p>
+    <div class="footer-links">
+      {personalData.socials.map((social) => (
+        <a href={social.url} target="_blank" rel="noopener noreferrer">{social.name}</a>
+      ))}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: var(--spacing-xl) 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--spacing-xxl);
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  @media (min-width: 600px) {
+    .footer-content {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .footer p {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .footer-links a:hover {
+    color: var(--text-primary);
+  }
+</style>
