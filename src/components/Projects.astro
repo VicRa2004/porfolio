@@ -1,44 +1,193 @@
 ---
 import projectsData from '../data/projects.json';
+
+const generalProjects = projectsData.filter(p => p.category === 'general');
+const programmerProjects = projectsData.filter(p => p.category === 'programmer');
 ---
 
 <section id="proyectos" class="animate-fade-in delay-3">
   <h2 class="section-title"><i class="ph-duotone ph-folder-notch-open"></i> Proyectos Destacados</h2>
   
-  <div class="projects-grid">
-    {projectsData.map((project) => (
-      <article class="project-card">
-        <div class="project-image-wrapper">
-          <img src={project.image} alt={`Captura de pantalla de ${project.title}`} class="project-image" loading="lazy" />
-          <div class="project-overlay">
-            <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Ver Proyecto">
-              <i class="ph ph-arrow-up-right"></i>
-            </a>
-            <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Código Fuente">
-              <i class="ph ph-github-logo"></i>
-            </a>
+  <div class="tabs-wrapper">
+    <div class="tabs-container">
+      <button class="tab-btn active" data-tab="general">
+        <i class="ph-duotone ph-desktop"></i> Proyectos Generales
+      </button>
+      <button class="tab-btn" data-tab="programmer">
+        <i class="ph-duotone ph-code"></i> Para Programadores
+      </button>
+    </div>
+  </div>
+
+  <div class="projects-container">
+    {/* Grilla de Proyectos Generales */}
+    <div id="general-projects" class="projects-grid active">
+      {generalProjects.map((project) => (
+        <article class="project-card">
+          <div class="project-image-wrapper">
+            <img src={project.image} alt={`Captura de pantalla de ${project.title}`} class="project-image" loading="lazy" />
+            <div class="project-overlay">
+              <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Ver Proyecto">
+                <i class="ph ph-arrow-up-right"></i>
+              </a>
+              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Código Fuente">
+                <i class="ph ph-github-logo"></i>
+              </a>
+            </div>
           </div>
-        </div>
-        
-        <div class="project-content">
-          <h3 class="project-title">{project.title}</h3>
-          <p class="project-description">{project.description}</p>
-          <div class="tech-list">
-            {project.technologies.map((tech) => (
-              <span class="tech-badge">{tech}</span>
-            ))}
+          
+          <div class="project-content">
+            <h3 class="project-title">{project.title}</h3>
+            <p class="project-description">{project.description}</p>
+            <div class="tech-list">
+              {project.technologies.map((tech) => (
+                <span class="tech-badge">{tech}</span>
+              ))}
+            </div>
           </div>
-        </div>
-      </article>
-    ))}
+        </article>
+      ))}
+    </div>
+
+    {/* Grilla de Proyectos para Programadores */}
+    <div id="programmer-projects" class="projects-grid">
+      {programmerProjects.map((project) => (
+        <article class="project-card">
+          <div class="project-image-wrapper">
+            <img src={project.image} alt={`Captura de pantalla de ${project.title}`} class="project-image" loading="lazy" />
+            <div class="project-overlay">
+              <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Ver Proyecto">
+                <i class="ph ph-arrow-up-right"></i>
+              </a>
+              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Código Fuente">
+                <i class="ph ph-github-logo"></i>
+              </a>
+            </div>
+          </div>
+          
+          <div class="project-content">
+            <h3 class="project-title">{project.title}</h3>
+            <p class="project-description">{project.description}</p>
+            <div class="tech-list">
+              {project.technologies.map((tech) => (
+                <span class="tech-badge">{tech}</span>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </section>
 
+<script is:inline>
+  (() => {
+    const initTabs = () => {
+      const tabs = document.querySelectorAll('.tab-btn');
+      const grids = document.querySelectorAll('.projects-grid');
+
+      if (!tabs.length || !grids.length) return;
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const category = tab.getAttribute('data-tab');
+          
+          // Desactivar todas las pestañas y activar la seleccionada
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          // Ocultar todas las cuadrículas y mostrar la seleccionada
+          grids.forEach(grid => {
+            grid.classList.remove('active');
+            if (grid.id === `${category}-projects`) {
+              grid.classList.add('active');
+            }
+          });
+        });
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTabs);
+    } else {
+      initTabs();
+    }
+  })();
+</script>
+
 <style>
+  .tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .tabs-container {
+    display: inline-flex;
+    background-color: rgba(226, 232, 240, 0.4);
+    padding: 6px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+    gap: 4px;
+  }
+
+  .tab-btn {
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.65rem 1.75rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-secondary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tab-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .tab-btn.active {
+    background-color: var(--bg-surface);
+    color: var(--accent-color);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05), var(--shadow-sm);
+  }
+
+  .tab-btn i {
+    font-size: 1.2rem;
+  }
+
+  .projects-container {
+    position: relative;
+    min-height: 400px;
+  }
+
   .projects-grid {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr;
     gap: var(--spacing-xl);
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  .projects-grid.active {
+    display: grid;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (min-width: 768px) {
@@ -157,5 +306,20 @@ import projectsData from '../data/projects.json';
     padding: 0.3rem 0.6rem;
     border-radius: var(--radius-md);
     border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .tabs-container {
+      width: 100%;
+      flex-direction: column;
+      border-radius: var(--radius-lg);
+      padding: 4px;
+    }
+    
+    .tab-btn {
+      border-radius: calc(var(--radius-lg) - 4px);
+      justify-content: center;
+      padding: 0.5rem 1rem;
+    }
   }
 </style>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "landing-pages",
+    "icon": "ph-duotone ph-desktop",
+    "title": "Sitios Web & Landing Pages",
+    "description": "Desarrollo de sitios web corporativos y páginas de aterrizaje con un enfoque moderno, responsivo y ultra-rápido para destacar tu marca.",
+    "features": [
+      "Diseño responsivo y adaptado a móviles",
+      "Optimización SEO básica y alta velocidad",
+      "Efectos visuales modernos y limpios",
+      "Integración de formularios de contacto"
+    ]
+  },
+  {
+    "id": "invitaciones-digitales",
+    "icon": "ph-duotone ph-envelope-open",
+    "title": "Invitaciones Digitales Interactivas",
+    "description": "Invitaciones elegantes e interactivas para bodas, quinceañeras y eventos especiales con confirmación en tiempo real.",
+    "features": [
+      "Confirmación de asistencia vía WhatsApp",
+      "Cuenta regresiva del evento integrada",
+      "Ubicaciones interactivas (Google Maps)",
+      "Detalles del evento y sugerencias de regalo"
+    ]
+  },
+  {
+    "id": "sistemas-gestion",
+    "icon": "ph-duotone ph-chart-line-up",
+    "title": "Sistemas de Gestión & Dashboards",
+    "description": "Aplicaciones web a medida para optimizar los procesos de tu negocio, control de ventas o administración de inventarios.",
+    "features": [
+      "Paneles de administración intuitivos",
+      "Base de datos y reportes estructurados",
+      "Autenticación segura de usuarios",
+      "Exportación de datos a PDF o Excel"
+    ]
+  },
+  {
+    "id": "apis-plantillas",
+    "icon": "ph-duotone ph-brackets-angle",
+    "title": "APIs & Plantillas de Desarrollo",
+    "description": "Arquitecturas limpias y plantillas de código robustas para acelerar la creación de proyectos de desarrollo.",
+    "features": [
+      "Código estructurado con buenas prácticas",
+      "Patrones de arquitectura limpia (Hexagonal)",
+      "Configuración lista de TS, Express y DB",
+      "Fácil de extender y documentado"
+    ]
+  }
+]

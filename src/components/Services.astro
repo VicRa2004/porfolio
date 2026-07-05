@@ -1,0 +1,207 @@
+---
+import servicesData from '../data/services.json';
+import personalData from '../data/personal.json';
+---
+
+<section id="servicios" class="animate-fade-in delay-3">
+  <h2 class="section-title"><i class="ph-duotone ph-hand-coins"></i> Servicios Freelancer</h2>
+  
+  <p class="section-subtitle">Soluciones digitales premium diseñadas a medida para impulsar tu negocio o agilizar tu desarrollo técnico.</p>
+
+  <div class="services-grid">
+    {servicesData.map((service) => (
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrapper">
+            <i class={service.icon}></i>
+          </div>
+          <h3 class="service-title">{service.title}</h3>
+        </div>
+        
+        <p class="service-description">{service.description}</p>
+        
+        <div class="service-features-title">¿Qué incluye?</div>
+        <ul class="service-features">
+          {service.features.map((feature) => (
+            <li>
+              <i class="ph-bold ph-check check-icon"></i>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+        
+        <div class="service-footer">
+          <a href={`mailto:${personalData.email}?subject=Cotización de Servicio Freelance - ${service.title}`} class="btn-service">
+            <span>Cotizar Proyecto</span>
+            <i class="ph ph-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .service-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+  }
+
+  .service-card:hover::before {
+    opacity: 1;
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .service-icon-wrapper {
+    background: rgba(59, 130, 246, 0.08);
+    color: var(--accent-color);
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .service-card:hover .service-icon-wrapper {
+    background: var(--accent-gradient);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  .service-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .service-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing-lg);
+    flex-grow: 1;
+  }
+
+  .service-features-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .service-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-lg) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .service-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .check-icon {
+    color: #10b981; /* Tailwind emerald-500 */
+    font-size: 1rem;
+    margin-top: 0.2rem;
+  }
+
+  .service-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+  }
+
+  .btn-service {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: transparent;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    transition: all 0.2s ease;
+  }
+
+  .btn-service:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+  }
+
+  .btn-service i {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-service:hover i {
+    transform: translateX(3px);
+  }
+</style>
