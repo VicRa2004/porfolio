@@ -20,7 +20,7 @@
   {
     "title": "GreenQuiz",
     "description": "Aplicación web interactiva de gamificación educativa para crear y responder cuestionarios sobre cualquier tema o clase, mejorando la retención de conocimiento de forma dinámica.",
-    "technologies": ["React", "TypeScript", "Vite", "CSS Puro"],
+    "technologies": ["React", "TypeScript", "Tailwind CSS", "NestJS", "Vite"],
     "image": "/trivia_app.png",
     "link": "https://trivia-rush.netlify.app",
     "repo": "https://github.com/VicRa2004/app-trivia-frontend-1",
@@ -29,7 +29,7 @@
   {
     "title": "NextCodeClub",
     "description": "Sitio web oficial del Club de Programación NextCode del Instituto Tecnológico de Villahermosa. Plataforma comunitaria para coordinar retos de código, talleres y proyectos estudiantiles.",
-    "technologies": ["Astro", "React", "Tailwind CSS", "TypeScript"],
+    "technologies": ["NextJS", "React", "Tailwind CSS", "TypeScript"],
     "image": "/nextcode-app.png",
     "link": "https://nextcode.villahermosa.tecnm.mx",
     "repo": "#",
