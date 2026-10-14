@@ -1,0 +1,9 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "porfolio",
+	"compatibility_date": "2026-10-14",
+	// Sitio estático: Cloudflare solo sirve los archivos que genera `astro build`
+	"assets": {
+		"directory": "./dist"
+	}
+}
