@@ -1,325 +1,194 @@
 ---
-import projectsData from '../data/projects.json';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import projects from '../data/projects.json';
 
-const generalProjects = projectsData.filter(p => p.category === 'general');
-const programmerProjects = projectsData.filter(p => p.category === 'programmer');
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+});
+const imageFor = (file: string | null) => (file ? images[`../assets/projects/${file}`]?.default : undefined);
+
+const groups = [
+  { id: 'general', title: 'Productos y clientes' },
+  { id: 'programmer', title: 'Para programadores' },
+];
+
+const initials = (title: string) =>
+  title
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('');
 ---
 
-<section id="proyectos" class="animate-fade-in delay-3">
-  <h2 class="section-title"><i class="ph-duotone ph-folder-notch-open"></i> Proyectos Destacados</h2>
-  
-  <div class="tabs-wrapper">
-    <div class="tabs-container">
-      <button class="tab-btn active" data-tab="general">
-        <i class="ph-duotone ph-desktop"></i> Proyectos Generales
-      </button>
-      <button class="tab-btn" data-tab="programmer">
-        <i class="ph-duotone ph-code"></i> Para Programadores
-      </button>
-    </div>
-  </div>
+<section id="proyectos" class="section container" aria-labelledby="proyectos-title">
+  <header class="section-head">
+    <span class="section-index">01</span>
+    <h2 id="proyectos-title" class="section-title">Proyectos</h2>
+    <p class="section-lead">Una selección de lo que he construido, desde productos para clientes hasta herramientas para otros desarrolladores.</p>
+  </header>
 
-  <div class="projects-container">
-    {/* Grilla de Proyectos Generales */}
-    <div id="general-projects" class="projects-grid active">
-      {generalProjects.map((project) => (
-        <article class="project-card">
-          <div class="project-image-wrapper">
-            <img src={project.image} alt={`Captura de pantalla de ${project.title}`} class="project-image" loading="lazy" />
-            <div class="project-overlay">
-              <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Ver Proyecto">
-                <i class="ph ph-arrow-up-right"></i>
-              </a>
-              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Código Fuente">
-                <i class="ph ph-github-logo"></i>
-              </a>
-            </div>
-          </div>
-          
-          <div class="project-content">
-            <h3 class="project-title">{project.title}</h3>
-            <p class="project-description">{project.description}</p>
-            <div class="tech-list">
-              {project.technologies.map((tech) => (
-                <span class="tech-badge">{tech}</span>
-              ))}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-
-    {/* Grilla de Proyectos para Programadores */}
-    <div id="programmer-projects" class="projects-grid">
-      {programmerProjects.map((project) => (
-        <article class="project-card">
-          <div class="project-image-wrapper">
-            <img src={project.image} alt={`Captura de pantalla de ${project.title}`} class="project-image" loading="lazy" />
-            <div class="project-overlay">
-              <a href={project.link} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Ver Proyecto">
-                <i class="ph ph-arrow-up-right"></i>
-              </a>
-              <a href={project.repo} target="_blank" rel="noopener noreferrer" class="btn-icon" aria-label="Código Fuente">
-                <i class="ph ph-github-logo"></i>
-              </a>
-            </div>
-          </div>
-          
-          <div class="project-content">
-            <h3 class="project-title">{project.title}</h3>
-            <p class="project-description">{project.description}</p>
-            <div class="tech-list">
-              {project.technologies.map((tech) => (
-                <span class="tech-badge">{tech}</span>
-              ))}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
+  <div class="groups">
+    {groups.map((group) => (
+      <div class="group">
+        <h3 class="eyebrow group-title">{group.title}</h3>
+        <ul role="list" class="grid">
+          {projects
+            .filter((project) => project.category === group.id)
+            .map((project) => {
+              const image = imageFor(project.image);
+              const href = project.link ?? project.repo;
+              return (
+                <li class="card">
+                  <div class="media">
+                    {image ? (
+                      <Image src={image} alt="" widths={[480, 800, 1100]} sizes="(min-width: 900px) 420px, 100vw" />
+                    ) : (
+                      <span class="placeholder" aria-hidden="true">{initials(project.title)}</span>
+                    )}
+                  </div>
+                  <div class="content">
+                    <h4 class="card-title">
+                      {href ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer" class="card-link">
+                          {project.title}
+                          <Icon name="arrow-up-right" size={18} />
+                        </a>
+                      ) : (
+                        project.title
+                      )}
+                    </h4>
+                    <p class="description">{project.description}</p>
+                    <ul role="list" class="stack">
+                      {project.technologies.map((tech) => <li>{tech}</li>)}
+                    </ul>
+                    <div class="links">
+                      {project.link && (
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" class="link">
+                          Ver sitio <span class="sr-only">de {project.title}</span>
+                        </a>
+                      )}
+                      {project.repo && (
+                        <a href={project.repo} target="_blank" rel="noopener noreferrer" class="link">
+                          Código <span class="sr-only">de {project.title}</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+    ))}
   </div>
 </section>
 
-<script is:inline>
-  (() => {
-    const initTabs = () => {
-      const tabs = document.querySelectorAll('.tab-btn');
-      const grids = document.querySelectorAll('.projects-grid');
-
-      if (!tabs.length || !grids.length) return;
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const category = tab.getAttribute('data-tab');
-          
-          // Desactivar todas las pestañas y activar la seleccionada
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          
-          // Ocultar todas las cuadrículas y mostrar la seleccionada
-          grids.forEach(grid => {
-            grid.classList.remove('active');
-            if (grid.id === `${category}-projects`) {
-              grid.classList.add('active');
-            }
-          });
-        });
-      });
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initTabs);
-    } else {
-      initTabs();
-    }
-  })();
-</script>
-
 <style>
-  .tabs-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .tabs-container {
-    display: inline-flex;
-    background-color: rgba(226, 232, 240, 0.4);
-    padding: 6px;
-    border-radius: 9999px;
-    border: 1px solid var(--border-color);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
-    gap: 4px;
-  }
-
-  .tab-btn {
-    background: transparent;
-    border: none;
-    border-radius: 9999px;
-    padding: 0.65rem 1.75rem;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    color: var(--text-secondary);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .tab-btn:hover {
-    color: var(--text-primary);
-  }
-
-  .tab-btn.active {
-    background-color: var(--bg-surface);
-    color: var(--accent-color);
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05), var(--shadow-sm);
-  }
-
-  .tab-btn i {
-    font-size: 1.2rem;
-  }
-
-  .projects-container {
-    position: relative;
-    min-height: 400px;
-  }
-
-  .projects-grid {
-    display: none;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-    animation: fadeIn 0.4s ease forwards;
-  }
-
-  .projects-grid.active {
+  .groups {
     display: grid;
+    gap: var(--space-8);
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  .group-title {
+    margin-bottom: var(--space-5);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-7) var(--space-6);
+  }
+
+  @media (min-width: 680px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (min-width: 768px) {
-    .projects-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .project-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+  .card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+    gap: var(--space-4);
   }
 
-  .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent-color);
-  }
-
-  .project-image-wrapper {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  .media {
+    aspect-ratio: 16 / 10;
     overflow: hidden;
-    background-color: #e2e8f0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: var(--accent-soft);
   }
 
-  .project-image {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    object-position: top center;
+    transition: transform 0.6s var(--ease-out);
   }
 
-  .project-card:hover .project-image {
-    transform: scale(1.05);
+  .card:hover .media img {
+    transform: scale(1.03);
   }
 
-  .project-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  .placeholder {
+    display: grid;
+    place-items: center;
     height: 100%;
-    background: rgba(15, 23, 42, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-md);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: var(--accent);
+    background-image: radial-gradient(color-mix(in oklab, var(--accent) 22%, transparent) 1px, transparent 1px);
+    background-size: 14px 14px;
   }
 
-  .project-card:hover .project-overlay {
-    opacity: 1;
-  }
-
-  .btn-icon {
-    background-color: white;
-    color: var(--text-primary);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    transition: all 0.2s ease;
-  }
-
-  .btn-icon:hover {
-    background-color: var(--accent-color);
-    color: white;
-    transform: scale(1.1);
-  }
-
-  .project-content {
-    padding: var(--spacing-lg);
+  .content {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    gap: var(--space-3);
   }
 
-  .project-title {
-    font-size: 1.4rem;
-    margin-bottom: var(--spacing-sm);
+  .card-title {
+    font-size: 1.25rem;
   }
 
-  .project-description {
-    color: var(--text-secondary);
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* Toda la tarjeta es clicable sin anidar enlaces */
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card-link .icon {
+    color: var(--subtle);
+    transition: transform 0.25s var(--ease-out), color 0.2s ease;
+  }
+
+  .card:hover .card-link .icon {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  .description {
+    color: var(--muted);
     font-size: 0.95rem;
-    margin-bottom: var(--spacing-lg);
-    flex-grow: 1;
   }
 
-  .tech-list {
+  .links {
+    position: relative;
+    z-index: 1;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-  }
-
-  .tech-badge {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--accent-color);
-    background-color: rgba(59, 130, 246, 0.1);
-    padding: 0.3rem 0.6rem;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    .tabs-container {
-      width: 100%;
-      flex-direction: column;
-      border-radius: var(--radius-lg);
-      padding: 4px;
-    }
-    
-    .tab-btn {
-      border-radius: calc(var(--radius-lg) - 4px);
-      justify-content: center;
-      padding: 0.5rem 1rem;
-    }
+    gap: var(--space-5);
+    font-size: 0.9rem;
   }
 </style>

@@ -1,98 +1,75 @@
 ---
-import skillsData from '../data/skills.json';
+import skills from '../data/skills.json';
 ---
 
-<section id="habilidades" class="animate-fade-in delay-1">
-  <h2 class="section-title"><i class="ph-duotone ph-cpu"></i> Habilidades y Tecnologías</h2>
-  
-  <div class="skills-container">
-    {skillsData.map((category) => (
-      <div class="skill-card">
-        <div class="category-header">
-          <i class={category.icon}></i>
-          <h3 class="category-title">{category.category}</h3>
-        </div>
-        <div class="skills-grid">
-          {category.items.map((item) => (
-            <div class="skill-item">
-              <i class={`${item.icon} colored`}></i>
-              <span>{item.name}</span>
-            </div>
-          ))}
-        </div>
+<section id="habilidades" class="section container" aria-labelledby="habilidades-title">
+  <header class="section-head">
+    <span class="section-index">03</span>
+    <h2 id="habilidades-title" class="section-title">Habilidades</h2>
+    <p class="section-lead">Herramientas con las que he entregado proyectos, no una lista de deseos.</p>
+  </header>
+
+  <dl class="skills">
+    {skills.map((group) => (
+      <div class="row">
+        <dt>{group.category}</dt>
+        <dd>
+          <ul role="list">
+            {group.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </dd>
       </div>
     ))}
-  </div>
+  </dl>
 </section>
 
 <style>
-  .skills-container {
+  .skills {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
   }
 
-  @media (min-width: 768px) {
-    .skills-container {
-      grid-template-columns: repeat(3, 1fr);
+  .row {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row:first-child {
+    padding-top: 0;
+  }
+
+  .row:last-child {
+    border-bottom: 0;
+  }
+
+  dt {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--subtle);
+    padding-top: 0.15rem;
+  }
+
+  dd ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0;
+  }
+
+  dd li {
+    color: var(--ink);
+  }
+
+  dd li:not(:last-child)::after {
+    content: '/';
+    margin-inline: 0.55rem;
+    color: var(--line);
+  }
+
+  @media (min-width: 680px) {
+    .row {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: var(--space-5);
     }
-  }
-
-  .skill-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .skill-card:hover {
-    box-shadow: var(--shadow-md);
-  }
-
-  .category-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .category-header i {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-  }
-
-  .category-title {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-  }
-
-  .skill-item {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    padding: var(--spacing-xs);
-    border-radius: var(--radius-md);
-    transition: background-color 0.2s ease;
-  }
-
-  .skill-item:hover {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-  }
-
-  .skill-item i {
-    font-size: 1.2rem;
   }
 </style>

@@ -1,0 +1,82 @@
+---
+import education from '../data/education.json';
+import languages from '../data/languages.json';
+---
+
+<section id="formacion" class="section container" aria-labelledby="formacion-title">
+  <header class="section-head">
+    <span class="section-index">04</span>
+    <h2 id="formacion-title" class="section-title">Formación e idiomas</h2>
+  </header>
+
+  <div class="columns">
+    <div>
+      <h3 class="eyebrow block-title">Educación</h3>
+      <ul role="list" class="entries">
+        {education.map((entry) => (
+          <li>
+            <p class="date">
+              {entry.startDate} — {entry.endDate}
+              {entry.note && <span> · {entry.note}</span>}
+            </p>
+            <p class="primary">{entry.degree}</p>
+            <p class="secondary">{entry.school}, {entry.location}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="eyebrow block-title">Idiomas</h3>
+      <dl class="entries">
+        {languages.map((language) => (
+          <div>
+            <dt class="primary">{language.name}</dt>
+            <dd class="secondary">{language.level}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .columns {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  @media (min-width: 680px) {
+    .columns {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .block-title {
+    margin-bottom: var(--space-4);
+  }
+
+  .entries {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: var(--space-1);
+  }
+
+  .primary {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .secondary {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,111 +1,118 @@
 ---
-import experienceData from '../data/experience.json';
+import Icon from './Icon.astro';
+import experience from '../data/experience.json';
 ---
 
-<section id="experiencia" class="animate-fade-in delay-2">
-  <h2 class="section-title"><i class="ph-duotone ph-briefcase"></i> Experiencia</h2>
-  
-  <div class="timeline">
-    {experienceData.map((job) => (
-      <article class="job-card">
-        <div class="job-header">
-          <div>
-            <h3 class="role">{job.role}</h3>
-            <h4 class="company"><i class="ph ph-buildings"></i> {job.company}</h4>
+<section id="experiencia" class="section container" aria-labelledby="experiencia-title">
+  <header class="section-head">
+    <span class="section-index">02</span>
+    <h2 id="experiencia-title" class="section-title">Experiencia en proyectos</h2>
+    <p class="section-lead">Sistemas reales: tiempo real, apps móviles, plataformas institucionales y trabajo para clientes.</p>
+  </header>
+
+  <ol role="list" class="list">
+    {experience.map((item, index) => (
+      <li class="item">
+        <span class="num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <div class="body">
+          <div class="head">
+            <h3 class="item-title">{item.title}</h3>
+            <p class="role">{item.role}</p>
           </div>
-          <span class="dates"><i class="ph ph-calendar-blank"></i> {job.startDate} — {job.endDate}</span>
+          <ul class="highlights">
+            {item.highlights.map((highlight) => <li>{highlight}</li>)}
+          </ul>
+          <ul role="list" class="stack" aria-label="Tecnologías">
+            {item.stack.map((tech) => <li>{tech}</li>)}
+          </ul>
+          {item.links.length > 0 && (
+            <div class="links">
+              {item.links.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer" class="link">
+                  <Icon name="brand:github" size={14} />
+                  {link.label}
+                  <span class="sr-only">de {item.title} (se abre en una pestaña nueva)</span>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
-        <p class="description">{job.description}</p>
-      </article>
+      </li>
     ))}
-  </div>
+  </ol>
 </section>
 
 <style>
-  .timeline {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-    position: relative;
+  .list {
+    display: grid;
   }
 
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border-color);
+  .item {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    padding-block: var(--space-6);
+    border-bottom: 1px solid var(--line);
   }
 
-  .job-card {
-    position: relative;
-    padding-left: var(--spacing-xl);
+  .item:first-child {
+    padding-top: 0;
   }
 
-  .job-card::before {
-    content: '';
-    position: absolute;
-    left: 14px;
-    top: 6px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--bg-surface);
-    border: 3px solid var(--accent-color);
+  .item:last-child {
+    border-bottom: 0;
   }
 
-  .job-header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+  .num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--subtle);
+    padding-top: 0.3rem;
   }
 
-  @media (min-width: 600px) {
-    .job-header {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
+  .body {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .head {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .item-title {
+    font-size: 1.2rem;
   }
 
   .role {
-    font-size: 1.3rem;
-    color: var(--text-primary);
+    font-size: 0.9rem;
+    color: var(--accent);
   }
 
-  .company {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    font-family: var(--font-body);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .dates {
-    font-size: 0.85rem;
-    color: var(--text-tertiary);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: var(--bg-surface);
-    padding: 0.2rem 0.6rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-  }
-
-  .description {
-    color: var(--text-secondary);
+  .highlights {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.1rem;
+    color: var(--muted);
     font-size: 0.95rem;
-    background-color: var(--bg-surface);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    margin-top: var(--spacing-sm);
+  }
+
+  .highlights li::marker {
+    color: var(--subtle);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 680px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: var(--space-5);
+    }
   }
 </style>

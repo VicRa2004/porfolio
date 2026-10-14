@@ -1,178 +1,156 @@
 ---
-import personalData from '../data/personal.json';
+import Icon from './Icon.astro';
+import personal from '../data/personal.json';
+
+const lastNames = personal.name.replace(personal.shortName, '').trim();
+const firstNames = personal.shortName;
 ---
 
-<section class="hero animate-fade-in delay-1">
-  <div class="hero-content">
-    <div class="badge"><i class="ph-fill ph-rocket-launch"></i> Disponible para trabajar</div>
-    <h1 class="title">
-      Construyendo software <br />
-      <span class="highlight">con propósito.</span>
-    </h1>
-    <h2 class="role"><i class="ph-fill ph-terminal-window"></i> {personalData.role}</h2>
-    <p class="bio">{personalData.bio}</p>
-    
-    <div class="actions">
-      <a href={`mailto:${personalData.email}`} class="btn btn-primary">
-        <i class="ph ph-envelope-simple"></i> Contáctame
+<section class="hero container" aria-labelledby="hero-title">
+  <p class="eyebrow reveal" style="--i: 0">{personal.role} · {personal.location}</p>
+
+  <h1 id="hero-title" class="title reveal" style="--i: 1">
+    {firstNames}<br />
+    <span class="muted">{lastNames}</span><span class="dot">.</span>
+  </h1>
+
+  <div class="body">
+    <p class="bio reveal" style="--i: 2">{personal.bio}</p>
+
+    <div class="cta reveal" style="--i: 3">
+      <a href={personal.cv} class="btn btn-primary" download="CV - Víctor Raúl García García.pdf">
+        <Icon name="download" size={18} />
+        Descargar CV
       </a>
-      <div class="socials">
-        {personalData.socials.map((social) => (
-          <a href={social.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={social.name}>
-            <i class={social.icon}></i>
-          </a>
-        ))}
-      </div>
+      <a href="/contacto" class="btn btn-ghost">
+        Hablemos
+        <Icon name="arrow-right" size={18} />
+      </a>
     </div>
   </div>
+
+  <ul role="list" class="meta reveal" style="--i: 4">
+    {personal.available && (
+      <li class="status">
+        <span class="pulse" aria-hidden="true"></span>
+        Disponible para proyectos freelance
+      </li>
+    )}
+    {personal.socials.map((social) => (
+      <li>
+        <a href={social.url} target="_blank" rel="noopener noreferrer" class="social">
+          <Icon name={`brand:${social.icon}`} size={15} />
+          {social.name}
+          <span class="sr-only">(se abre en una pestaña nueva)</span>
+        </a>
+      </li>
+    ))}
+  </ul>
 </section>
 
 <style>
   .hero {
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.8rem;
-    background-color: rgba(59, 130, 246, 0.1);
-    color: var(--accent-color);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-lg);
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding-block: clamp(3.5rem, 10vw, 8rem) clamp(3rem, 7vw, 5.5rem);
   }
 
   .title {
-    font-size: 4rem;
-    margin-bottom: var(--spacing-md);
-    line-height: 1.1;
-  }
-  
-  .highlight {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-top: var(--space-5);
+    font-size: clamp(2.9rem, 1.4rem + 7vw, 7rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
   }
 
-  .role {
-    font-size: 1.4rem;
-    color: var(--text-secondary);
-    font-family: var(--font-body);
+  .muted {
+    color: var(--subtle);
     font-weight: 500;
-    margin-bottom: var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  }
+
+  .dot {
+    color: var(--accent);
+  }
+
+  .body {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-7);
   }
 
   .bio {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin-bottom: var(--spacing-xl);
-    line-height: 1.8;
+    max-width: 56ch;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+    color: var(--muted);
   }
 
-  .actions {
+  .cta {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--space-3);
   }
 
-  .btn {
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .status {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: var(--radius-md);
-    transition: all 0.2s ease;
+    gap: var(--space-2);
+    flex-basis: 100%;
+    color: var(--ink);
   }
 
-  .btn-primary {
-    background: var(--accent-gradient);
-    color: white;
-    box-shadow: var(--shadow-md);
+  @media (min-width: 600px) {
+    .status {
+      flex-basis: auto;
+      margin-right: auto;
+    }
   }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    color: white;
-  }
-
-  .socials {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-
-  .social-link {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    background-color: var(--bg-surface);
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .pulse {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
+    background: var(--success);
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 60%, transparent);
   }
 
-  .social-link:hover {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-    transform: translateY(-2px);
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse {
+      animation: pulse 2.4s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      70%,
+      100% {
+        box-shadow: 0 0 0 7px transparent;
+      }
+    }
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      min-height: 60vh;
-      text-align: center;
-      padding-top: var(--spacing-xl);
-    }
-    
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  .social {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition: color 0.2s ease;
+  }
 
-    .title {
-      font-size: 2.5rem;
-    }
+  .social:hover {
+    color: var(--accent);
+  }
 
-    .role {
-      font-size: 1.2rem;
-      justify-content: center;
-    }
-
-    .bio {
-      font-size: 1rem;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .actions {
-      flex-direction: column;
-      gap: var(--spacing-md);
-      width: 100%;
-    }
-
-    .btn {
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .socials {
-      margin-top: var(--spacing-sm);
+  @media (min-width: 900px) {
+    .body {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
     }
   }
 </style>

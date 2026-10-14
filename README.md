@@ -1,46 +1,33 @@
-# Astro Starter Kit: Basics
+# Portafolio — Víctor Raúl García García
+
+Portafolio personal construido con [Astro](https://astro.build). Sitio estático, sin frameworks de UI ni CSS de terceros.
+
+## Desarrollo
+
+Requiere Node.js ≥ 22.12 y pnpm.
 
 ```sh
-npm create astro@latest -- --template basics
+pnpm install
+pnpm dev       # http://localhost:4321
+pnpm build     # genera ./dist
+pnpm preview   # sirve la build localmente
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+public/                    favicon y CV descargable (cv-victor-raul-garcia.pdf)
+src/
+├── assets/projects/       capturas de proyectos (optimizadas por astro:assets)
+├── components/            secciones de la página e Icon.astro (SVG de Iconify en build)
+├── data/                  contenido en JSON: datos personales, experiencia, habilidades…
+├── layouts/Layout.astro   <head>, SEO, fuentes y tema claro/oscuro
+├── pages/                 index y contacto
+└── styles/global.css      tokens de diseño y estilos base
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+El contenido se edita en `src/data/*.json`. Para añadir una captura de proyecto, guarda la imagen en
+`src/assets/projects/` y pon su nombre de archivo en el campo `image` de `projects.json`.
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Las fuentes (Bricolage Grotesque, Instrument Sans y JetBrains Mono) se descargan en build y se sirven
+desde el propio sitio mediante la API de fuentes de Astro.

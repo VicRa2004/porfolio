@@ -1,9 +1,82 @@
 [
   {
-    "company": "Freelancer",
-    "role": "Desarrollador Full Stack",
-    "startDate": "2025",
-    "endDate": "Presente",
-    "description": "Desarrollo de un sistema de gestion de turnos de espera para la tienda departamental Liverpool del estado de Tabasco, con el objetivo de reducir los tiempos de espera y mejorar la experiencia del cliente."
+    "title": "Sistema de turnos para tienda departamental",
+    "role": "Desarrollador full stack",
+    "stack": ["Express", "Prisma", "PostgreSQL", "Socket.IO", "React", "Capacitor"],
+    "highlights": [
+      "Desarrollé una API de turnos en tiempo real con Socket.IO y avisos automáticos a clientes por WhatsApp.",
+      "Construí una app Android con Capacitor con escaneo de códigos, impresión de tickets en impresoras térmicas Star y panel de métricas."
+    ],
+    "links": []
+  },
+  {
+    "title": "SIGIT — Sistema Integral de Gestión de Infraestructura TI",
+    "role": "Desarrollador full stack",
+    "stack": ["Bun", "Hono", "Prisma", "MariaDB", "React", "TanStack", "Leaflet"],
+    "highlights": [
+      "Desarrollé una plataforma institucional para inventariar redes, servidores, máquinas virtuales, sistemas y campus físico.",
+      "Diseñé la arquitectura en módulos por dominio, con control de acceso por roles (RBAC), bitácora de auditoría y georreferenciación de activos en mapas."
+    ],
+    "links": []
+  },
+  {
+    "title": "Trivia App — trivias multijugador en tiempo real",
+    "role": "Desarrollador full stack",
+    "stack": ["NestJS", "Socket.IO", "Prisma", "PostgreSQL", "React", "Google Gemini"],
+    "highlights": [
+      "Desarrollé un motor de partidas estilo Kahoot con salas por PIN, marcador en vivo y puntaje según el tiempo de respuesta.",
+      "Integré IA con Google Gemini para generar cuestionarios completos a partir de un tema; API documentada con Swagger."
+    ],
+    "links": [
+      { "label": "API", "url": "https://github.com/VicRa2004/app-trivia-api" },
+      { "label": "Frontend", "url": "https://github.com/VicRa2004/app-trivia-frontend-1" }
+    ]
+  },
+  {
+    "title": "Next Code — plataforma educativa para club de programación",
+    "role": "Desarrollador full stack",
+    "stack": ["Express", "Prisma", "MariaDB", "Next.js", "React", "shadcn/ui"],
+    "highlights": [
+      "Implementé la gestión de cursos, inscripciones con control de cupos, temarios y asistencia para alumnos, instructores y administradores.",
+      "Estructuré la API con Arquitectura Hexagonal dividida en 4 contextos acotados."
+    ],
+    "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/next-code-app" }]
+  },
+  {
+    "title": "Hexacore — plantilla base de Arquitectura Hexagonal",
+    "role": "Autor",
+    "stack": ["Bun", "Hono", "Prisma", "TSyringe", "Zod"],
+    "highlights": [
+      "Creé un boilerplate open source (MIT) con autenticación, autorización y guías para crear módulos.",
+      "Lo reutilicé como base de SIGIT y del Sistema Ganadero."
+    ],
+    "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/Hexacore" }]
+  },
+  {
+    "title": "Sistema Ganadero",
+    "role": "Desarrollador full stack",
+    "stack": ["Bun", "Hono", "Prisma", "PostgreSQL", "React", "TanStack", "shadcn/ui"],
+    "highlights": [
+      "Desarrollé un sistema de gestión ganadera con API en Arquitectura Hexagonal y frontend en React."
+    ],
+    "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/sistema-ganadero" }]
+  },
+  {
+    "title": "Sistema de Evaluación Docente",
+    "role": "Desarrollador full stack",
+    "stack": ["Node.js", "Express", "EJS", "MySQL", "Bootstrap"],
+    "highlights": [
+      "Desarrollé un sistema web para que estudiantes evalúen a sus profesores con criterios configurables, con roles de administrador, estudiante y profesor, y consulta de resultados."
+    ],
+    "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/sistema-evaluacion-docente" }]
+  },
+  {
+    "title": "Invitación digital de boda",
+    "role": "Desarrollador full stack",
+    "stack": ["Next.js", "Prisma", "PostgreSQL", "Tailwind CSS", "Framer Motion"],
+    "highlights": [
+      "Desarrollé para un cliente una invitación web con enlace personalizado por invitado, confirmación de asistencia y panel de administración con inicio de sesión."
+    ],
+    "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/invitacion-boda-2" }]
   }
 ]

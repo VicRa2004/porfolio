@@ -1,25 +1,31 @@
 {
-  "name": "Victor",
-  "role": "Desarrollador de Software",
-  "bio": "Transformo ideas en soluciones tecnológicas escalables. Especializado en construir interfaces dinámicas, código limpio y experiencias de usuario excepcionales.",
-  "email": "victor06ra2004@gmail.com",
+  "name": "Víctor Raúl García García",
+  "shortName": "Víctor Raúl",
+  "role": "Desarrollador Full Stack",
+  "bio": "Estudiante de Ingeniería en Sistemas Computacionales en el TecNM Campus Villahermosa. Construyo APIs y aplicaciones web con Arquitectura Hexagonal, tiempo real y tipado estricto, de la base de datos a la interfaz.",
+  "email": "victor07mejor@gmail.com",
   "web3forms_key": "82102681-33c4-4f26-9ad5-8cf3b317859c",
-  "location": "Ciudad, País",
+  "location": "Villahermosa, Tabasco, México",
+  "available": true,
+  "cv": "/cv-victor-raul-garcia.pdf",
   "socials": [
     {
       "name": "GitHub",
+      "handle": "VicRa2004",
       "url": "https://github.com/VicRa2004",
-      "icon": "devicon-github-original"
+      "icon": "github"
     },
     {
       "name": "LinkedIn",
-      "url": "https://www.linkedin.com/in/victor-ra%C3%BAl-garc%C3%ADa-garc%C3%ADa-5b2a1a255/",
-      "icon": "devicon-linkedin-plain"
+      "handle": "victor-raul-garcia-garcia",
+      "url": "https://www.linkedin.com/in/victor-raul-garcia-garcia-498401243",
+      "icon": "linkedin"
     },
     {
-      "name": "Twitter",
+      "name": "X",
+      "handle": "@victor06raul201",
       "url": "https://x.com/victor06raul201",
-      "icon": "devicon-twitter-original"
+      "icon": "x"
     }
   ]
 }

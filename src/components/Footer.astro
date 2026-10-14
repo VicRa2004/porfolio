@@ -1,96 +1,124 @@
 ---
-import personalData from '../data/personal.json';
+import Icon from './Icon.astro';
+import personal from '../data/personal.json';
+
+interface Props {
+  /** Muestra el bloque de llamada a la acción sobre el pie. */
+  cta?: boolean;
+}
+
+const { cta = true } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="container footer-content">
-    <div class="footer-info">
-      <a href="/" class="footer-logo">
-        <i class="ph-fill ph-code"></i> {personalData.name}
+  {cta && (
+    <div class="container cta">
+      <p class="eyebrow">¿Tienes un proyecto en mente?</p>
+      <a href={`mailto:${personal.email}`} class="mail">
+        {personal.email}
+        <Icon name="arrow-up-right" size={28} />
       </a>
-      <p>&copy; {year} Construido con código y <i class="ph-fill ph-coffee"></i>.</p>
-    </div>
-    
-    <div class="footer-socials">
-      {personalData.socials.map((social) => (
-        <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
-          <i class={social.icon}></i>
+      <div class="cta-actions">
+        <a href="/contacto" class="btn btn-primary">Ir al formulario</a>
+        <a href={personal.cv} class="btn btn-ghost" download="CV - Víctor Raúl García García.pdf">
+          <Icon name="download" size={18} />
+          Descargar CV
         </a>
-      ))}
+      </div>
     </div>
+  )}
+
+  <div class="container bottom">
+    <p>© {year} {personal.name}</p>
+    <ul role="list" class="socials">
+      {personal.socials.map((social) => (
+        <li>
+          <a href={social.url} target="_blank" rel="noopener noreferrer">
+            <Icon name={`brand:${social.icon}`} size={18} label={social.name} />
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </footer>
 
 <style>
   .footer {
-    padding: var(--spacing-xl) 0;
-    border-top: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
-    margin-top: var(--spacing-xxl);
+    border-top: 1px solid var(--line);
   }
 
-  .footer-content {
-    display: flex;
-    flex-direction: column;
+  .cta {
+    padding-block: var(--space-9) var(--space-8);
+  }
+
+  .mail {
+    display: inline-flex;
     align-items: center;
-    gap: var(--spacing-lg);
-  }
-
-  @media (min-width: 600px) {
-    .footer-content {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-
-  .footer-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-xs);
-  }
-
-  @media (min-width: 600px) {
-    .footer-info {
-      align-items: flex-start;
-    }
-  }
-
-  .footer-logo {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-  }
-  
-  .footer-logo i {
-    color: var(--accent-color);
+    font-size: clamp(1.5rem, 0.8rem + 3.6vw, 3.75rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--line);
+    text-underline-offset: 0.18em;
+    transition: text-decoration-color 0.25s ease, color 0.25s ease;
   }
 
-  .footer p {
+  .mail:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .mail .icon {
+    color: var(--accent);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
     font-size: 0.85rem;
-    color: var(--text-tertiary);
+    color: var(--subtle);
+  }
+
+  .cta + .bottom {
+    border-top: 1px solid var(--line);
+  }
+
+  .socials {
     display: flex;
-    align-items: center;
-    gap: 0.3rem;
+    gap: var(--space-2);
   }
 
-  .footer-socials {
-    display: flex;
-    gap: var(--spacing-md);
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: color 0.2s ease, background-color 0.2s ease;
   }
 
-  .footer-socials a {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    transition: color 0.2s ease, transform 0.2s ease;
-  }
-
-  .footer-socials a:hover {
-    color: var(--accent-color);
-    transform: translateY(-2px);
+  .socials a:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
   }
 </style>

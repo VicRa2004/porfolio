@@ -1,189 +1,199 @@
 ---
-import personalData from '../data/personal.json';
+import Icon from './Icon.astro';
+import personal from '../data/personal.json';
+
+const links = [
+  { href: '/#proyectos', label: 'Proyectos' },
+  { href: '/#experiencia', label: 'Experiencia' },
+  { href: '/#habilidades', label: 'Habilidades' },
+  { href: '/#servicios', label: 'Servicios' },
+  { href: '/contacto', label: 'Contacto' },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<header class="header animate-fade-in">
-  <div class="container header-content">
-    <div class="logo">
-      <a href="/">
-        <i class="ph-fill ph-code logo-icon"></i>
-        <span>{personalData.name}</span>
-      </a>
-    </div>
-    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" id="menu-toggle">
-      <i class="ph ph-list"></i>
-    </button>
-    <nav class="nav-container">
-      <ul class="nav-links" id="nav-links">
-        <li><a href="/#experiencia" class="nav-item"><i class="ph ph-briefcase"></i> Experiencia</a></li>
-        <li><a href="/#proyectos" class="nav-item"><i class="ph ph-folder-notch-open"></i> Proyectos</a></li>
-        <li><a href="/#servicios" class="nav-item"><i class="ph ph-hand-coins"></i> Servicios</a></li>
-        <li><a href="/#habilidades" class="nav-item"><i class="ph ph-cpu"></i> Habilidades</a></li>
-        <li><a href="/contacto" class="nav-item"><i class="ph ph-envelope"></i> Contacto</a></li>
+<header class="header">
+  <div class="container bar">
+    <a href="/" class="brand" aria-label={`${personal.name}, inicio`}>
+      <span class="mark" aria-hidden="true">vr</span>
+      <span class="brand-name">{personal.shortName}</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <ul role="list">
+        {links.map((link) => (
+          <li>
+            <a href={link.href} aria-current={current === link.href ? 'page' : undefined}>{link.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
+
+    <div class="actions">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar a tema oscuro">
+        <Icon name="moon" class="moon" />
+        <Icon name="sun" class="sun" />
+      </button>
+      <a href={personal.cv} class="btn btn-ghost cv" download="CV - Víctor Raúl García García.pdf">
+        <Icon name="download" size={16} />
+        <span>CV</span>
+      </a>
+    </div>
   </div>
 </header>
 
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+
+  const sync = () => {
+    const dark = root.dataset.theme === 'dark';
+    toggle?.setAttribute('aria-label', dark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+  };
+
+  sync();
+  toggle?.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    try {
+      localStorage.setItem('theme', root.dataset.theme);
+    } catch {}
+    sync();
+  });
+</script>
+
 <style>
   .header {
-    padding: var(--spacing-md) 0;
     position: sticky;
     top: 0;
-    background-color: rgba(248, 250, 252, 0.85);
-    backdrop-filter: blur(12px);
     z-index: 100;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    background-color: color-mix(in oklab, var(--bg) 85%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
   }
 
-  .header-content {
-    display: flex;
-    justify-content: space-between;
+  .bar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'brand . actions'
+      'nav nav nav';
     align-items: center;
-    position: relative; /* important for absolute positioning of nav-container */
+    column-gap: var(--space-5);
+    min-height: 64px;
   }
 
-  .logo a {
+  .brand {
+    grid-area: brand;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
     font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-  }
-  
-  .logo-icon {
-    color: var(--accent-color);
-    font-size: 1.5rem;
+    font-weight: 600;
   }
 
-  .menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    font-size: 1.8rem;
-    cursor: pointer;
-    padding: 0.2rem;
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .nav {
+    grid-area: nav;
+    margin-inline: calc(var(--gutter) * -1);
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .nav ul {
+    display: flex;
+    gap: var(--space-5);
+    padding: var(--space-3) var(--gutter);
+    white-space: nowrap;
+  }
+
+  .nav a {
+    font-size: 0.9rem;
+    color: var(--muted);
     transition: color 0.2s ease;
   }
 
-  .menu-toggle:hover {
-    color: var(--accent-color);
+  .nav a:hover,
+  .nav a[aria-current='page'] {
+    color: var(--ink);
   }
 
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: var(--spacing-lg);
+  .nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.4em;
   }
 
-  .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
+  .actions {
+    grid-area: actions;
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
+    gap: var(--space-2);
   }
 
-  .nav-links a:hover {
-    color: var(--accent-color);
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
   }
-  
-  .nav-links a i {
-    font-size: 1.1rem;
+
+  .theme-toggle:hover {
+    color: var(--ink);
+    background-color: var(--accent-soft);
   }
 
-  @media (max-width: 768px) {
-    .header {
-      padding: var(--spacing-md) 0;
+  .theme-toggle .sun,
+  :global([data-theme='dark']) .theme-toggle .moon {
+    display: none;
+  }
+
+  :global([data-theme='dark']) .theme-toggle .sun {
+    display: inline-block;
+  }
+
+  .cv {
+    min-height: 36px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  @media (min-width: 760px) {
+    .bar {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'brand nav actions';
+      min-height: 72px;
     }
 
-    .menu-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .nav {
+      margin: 0;
+      border: 0;
+      justify-self: center;
     }
 
-    .nav-container {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background-color: var(--bg-surface);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      border-bottom: 1px solid var(--border-color);
-      
-      /* Toggle logic */
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: all 0.3s ease-in-out;
-      margin-top: var(--spacing-sm);
-      border-radius: 0 0 var(--radius-md) var(--radius-md);
-    }
-
-    .nav-container.open {
-      max-height: 300px;
-      opacity: 1;
-      padding: var(--spacing-md);
-    }
-
-    .nav-links {
-      flex-direction: column;
-      gap: var(--spacing-md);
-      align-items: flex-start;
-      width: 100%;
-    }
-    
-    .nav-links a {
-      font-size: 1rem;
-      width: 100%;
-      padding: var(--spacing-xs) 0;
+    .nav ul {
+      padding: 0;
+      gap: var(--space-6);
     }
   }
 </style>
-
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menu-toggle');
-    const navContainer = document.querySelector('.nav-container');
-    const navItems = document.querySelectorAll('.nav-item');
-
-    if (menuToggle && navContainer) {
-      menuToggle.addEventListener('click', () => {
-        navContainer.classList.toggle('open');
-        const isOpen = navContainer.classList.contains('open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-        
-        // Cambiar el icono
-        const icon = menuToggle.querySelector('i');
-        if (icon) {
-          if (isOpen) {
-            icon.classList.remove('ph-list');
-            icon.classList.add('ph-x');
-          } else {
-            icon.classList.remove('ph-x');
-            icon.classList.add('ph-list');
-          }
-        }
-      });
-
-      // Cerrar el menú al hacer clic en un enlace
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          if (window.innerWidth <= 768) {
-            navContainer.classList.remove('open');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            const icon = menuToggle.querySelector('i');
-            if (icon) {
-              icon.classList.remove('ph-x');
-              icon.classList.add('ph-list');
-            }
-          }
-        });
-      });
-    }
-  });
-</script>
