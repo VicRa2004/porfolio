@@ -10,12 +10,18 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
     "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
-    "astro": "^6.1.9"
+    "astro": "^7.3.8",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "wrangler": "^4.151.0"
+    "@astrojs/check": "^0.9.10",
+    "@iconify-json/lucide": "^1.2.143",
+    "@iconify-json/simple-icons": "^1.2.100",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.150.0"
   }
 }
