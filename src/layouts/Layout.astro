@@ -77,11 +77,11 @@ const personSchema = {
     <CommandPalette />
 
     <script>
-      import { renderFrame } from '../scripts/ascii-hex';
+      import { renderSystem } from '../scripts/ascii-space';
 
       // Saludo para quien abre las DevTools.
       console.log(
-        `%c${renderFrame(0.5, 0.5)}%c\n¿Curioseando el código? Está todo aquí → https://github.com/VicRa2004/porfolio\nPrueba Ctrl + K.`,
+        `%c${renderSystem(6)}%c\n¿Curioseando el código? Está todo aquí → https://github.com/VicRa2004/porfolio\nPrueba Ctrl + K.`,
         'color:#8b5cf6;font-family:monospace;line-height:1.1',
         'font:13px/1.5 system-ui',
       );
