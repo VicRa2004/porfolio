@@ -40,15 +40,16 @@ const initials = (title: string) =>
               const image = imageFor(project.image);
               const href = project.link ?? project.repo;
               return (
-                <li class="card">
+                <li class:list={['card', { featured: project.featured }]}>
                   <div class="media">
                     {image ? (
-                      <Image src={image} alt="" widths={[480, 800, 1100]} sizes="(min-width: 900px) 420px, 100vw" />
+                      <Image src={image} alt="" widths={[480, 800, 1100]} sizes={project.featured ? '(min-width: 900px) 560px, 100vw' : '(min-width: 900px) 420px, 100vw'} />
                     ) : (
                       <span class="placeholder" aria-hidden="true">{initials(project.title)}</span>
                     )}
                   </div>
                   <div class="content">
+                    {project.featured && <p class="eyebrow badge">Proyecto destacado</p>}
                     <h4 class="card-title">
                       {href ? (
                         <a href={href} target="_blank" rel="noopener noreferrer" class="card-link">
@@ -111,6 +112,27 @@ const initials = (title: string) =>
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+  }
+
+  .featured {
+    grid-column: 1 / -1;
+  }
+
+  .badge {
+    color: var(--accent);
+  }
+
+  @media (min-width: 900px) {
+    .featured {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .featured .card-title {
+      font-size: 1.6rem;
+    }
   }
 
   .media {

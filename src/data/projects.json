@@ -1,5 +1,24 @@
 [
   {
+    "title": "Cosmoflow",
+    "description": "App de productividad individual y en equipo: tareas, notas en markdown, organizaciones, equipos y proyectos. Incluye app móvil y un servidor MCP para que asistentes de IA gestionen las tareas.",
+    "technologies": [
+      "Bun",
+      "Hono",
+      "Prisma",
+      "PostgreSQL",
+      "React",
+      "TanStack",
+      "Flutter",
+      "MCP"
+    ],
+    "image": "cosmoflow.png",
+    "link": "https://cosmoflow.saasil.mx",
+    "repo": "https://github.com/VicRa2004/cosmoflow",
+    "category": "general",
+    "featured": true
+  },
+  {
     "title": "Sistema Ganadero",
     "description": "Plataforma de gestión de ganado para pequeños productores. Permite gestionar el inventario, la producción y las ventas de ganado.",
     "technologies": [

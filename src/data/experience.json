@@ -1,5 +1,18 @@
 [
   {
+    "title": "Cosmoflow — app de productividad individual y en equipo",
+    "role": "Autor",
+    "stack": ["Bun", "Hono", "Prisma", "PostgreSQL", "React", "TanStack", "Flutter", "MCP"],
+    "highlights": [
+      "Desarrollé una app de tareas y notas en markdown que escala a organizaciones, equipos y proyectos, con permisos por recurso y bitácora de auditoría.",
+      "Expuse la API como servidor MCP para que asistentes de IA gestionen tareas y notas, y la consumo también desde una app móvil en Flutter."
+    ],
+    "links": [
+      { "label": "Sitio", "url": "https://cosmoflow.saasil.mx" },
+      { "label": "Repositorio", "url": "https://github.com/VicRa2004/cosmoflow" }
+    ]
+  },
+  {
     "title": "Sistema de turnos para tienda departamental",
     "role": "Desarrollador full stack",
     "stack": ["Express", "Prisma", "PostgreSQL", "Socket.IO", "React", "Capacitor"],
@@ -48,7 +61,7 @@
     "stack": ["Bun", "Hono", "Prisma", "TSyringe", "Zod"],
     "highlights": [
       "Creé un boilerplate open source (MIT) con autenticación, autorización y guías para crear módulos.",
-      "Lo reutilicé como base de SIGIT y del Sistema Ganadero."
+      "Lo reutilicé como base de SIGIT, Cosmoflow y del Sistema Ganadero."
     ],
     "links": [{ "label": "Repositorio", "url": "https://github.com/VicRa2004/Hexacore" }]
   },
