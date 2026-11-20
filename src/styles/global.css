@@ -309,6 +309,11 @@ textarea {
    Movimiento
    ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: no-preference) {
+  /* Fundido nativo entre páginas (inicio ↔ contacto) */
+  @view-transition {
+    navigation: auto;
+  }
+
   .reveal {
     animation: reveal 0.7s var(--ease-out) both;
     animation-delay: calc(var(--i, 0) * 70ms);
