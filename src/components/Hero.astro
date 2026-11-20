@@ -7,6 +7,8 @@ const firstNames = personal.shortName;
 ---
 
 <section class="hero container" aria-labelledby="hero-title">
+  <pre class="hex reveal" style="--i: 2" aria-hidden="true" data-hex></pre>
+
   <p class="eyebrow reveal" style="--i: 0">{personal.role} · {personal.location}</p>
 
   <h1 id="hero-title" class="title reveal" style="--i: 1">
@@ -48,9 +50,60 @@ const firstNames = personal.shortName;
   </ul>
 </section>
 
+<script>
+  import { renderFrame } from '../scripts/ascii-hex';
+
+  const pre = document.querySelector<HTMLPreElement>('[data-hex]');
+  const FRAME_MS = 1000 / 30;
+  const draw = (target: HTMLPreElement, time: number) => {
+    target.textContent = renderFrame(0.5 + time / 2600, 0.5 + 0.12 * Math.sin(time / 1900));
+  };
+
+  if (pre) {
+    draw(pre, 0);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let frame = 0;
+      let last = 0;
+      const tick = (time: number) => {
+        if (time - last >= FRAME_MS) {
+          last = time;
+          draw(pre, time);
+        }
+        frame = requestAnimationFrame(tick);
+      };
+      // Sólo anima mientras se ve (fuera de pantalla u oculto en móvil no consume CPU).
+      new IntersectionObserver(([entry]) => {
+        cancelAnimationFrame(frame);
+        if (entry.isIntersecting) frame = requestAnimationFrame(tick);
+      }).observe(pre);
+    }
+  }
+</script>
+
 <style>
   .hero {
+    position: relative;
     padding-block: clamp(3.5rem, 10vw, 8rem) clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .hex {
+    display: none;
+    position: absolute;
+    top: clamp(3.5rem, 10vw, 8rem);
+    right: var(--gutter);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.1;
+    color: var(--accent);
+    opacity: 0.75;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @media (min-width: 1100px) {
+    .hex {
+      display: block;
+    }
   }
 
   .title {
