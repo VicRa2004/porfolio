@@ -21,6 +21,7 @@
     "@astrojs/check": "^0.9.10",
     "@iconify-json/lucide": "^1.2.143",
     "@iconify-json/simple-icons": "^1.2.100",
+    "@types/node": "^24.19.2",
     "typescript": "^6.0.3",
     "wrangler": "^4.150.0"
   }

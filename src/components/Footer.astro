@@ -1,4 +1,5 @@
 ---
+import { execSync } from 'node:child_process';
 import Icon from './Icon.astro';
 import personal from '../data/personal.json';
 
@@ -8,7 +9,15 @@ interface Props {
 }
 
 const { cta = true } = Astro.props;
-const year = new Date().getFullYear();
+const repo = 'https://github.com/VicRa2004/porfolio';
+const builtAt = new Date();
+const year = builtAt.getFullYear();
+const buildDate = builtAt.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+
+let commit: string | undefined;
+try {
+  commit = execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+} catch {} // sin git (p. ej. build en CI sin historial): se muestra sólo la fecha
 ---
 
 <footer class="footer">
@@ -30,7 +39,14 @@ const year = new Date().getFullYear();
   )}
 
   <div class="container bottom">
-    <p>© {year} {personal.name}</p>
+    <div class="credits">
+      <p>© {year} {personal.name}</p>
+      <p class="build">
+        <span>build {commit && <a href={`${repo}/commit/${commit}`} target="_blank" rel="noopener noreferrer">{commit}</a>} · {buildDate}</span>
+        <span aria-hidden="true">·</span>
+        <a href={repo} target="_blank" rel="noopener noreferrer">código fuente<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+      </p>
+    </div>
     <ul role="list" class="socials">
       {personal.socials.map((social) => (
         <li>
@@ -96,6 +112,30 @@ const year = new Date().getFullYear();
     padding-block: var(--space-5);
     font-size: 0.85rem;
     color: var(--subtle);
+  }
+
+  .credits {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .build {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .build a {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 0.2em;
+    transition: color 0.2s ease;
+  }
+
+  .build a:hover {
+    color: var(--accent);
   }
 
   .cta + .bottom {
