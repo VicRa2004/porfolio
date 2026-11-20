@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import '../styles/global.css';
+import CommandPalette from '../components/CommandPalette.astro';
 import personal from '../data/personal.json';
 
 interface Props {
@@ -67,5 +68,17 @@ const personSchema = {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <slot />
+    <CommandPalette />
+
+    <script>
+      import { renderFrame } from '../scripts/ascii-hex';
+
+      // Saludo para quien abre las DevTools.
+      console.log(
+        `%c${renderFrame(0.5, 0.5)}%c\n¿Curioseando el código? Está todo aquí → https://github.com/VicRa2004/porfolio\nPrueba Ctrl + K.`,
+        'color:#8b5cf6;font-family:monospace;line-height:1.1',
+        'font:13px/1.5 system-ui',
+      );
+    </script>
   </body>
 </html>

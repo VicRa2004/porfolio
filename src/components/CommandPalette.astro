@@ -1,0 +1,245 @@
+---
+import Icon from './Icon.astro';
+import personal from '../data/personal.json';
+
+type Command = { label: string; icon: string; group: string; href?: string; action?: string; external?: boolean };
+
+const commands: Command[] = [
+  { label: 'Proyectos', icon: 'folder', group: 'Ir a', href: '/#proyectos' },
+  { label: 'Experiencia', icon: 'briefcase', group: 'Ir a', href: '/#experiencia' },
+  { label: 'Habilidades', icon: 'code', group: 'Ir a', href: '/#habilidades' },
+  { label: 'Servicios', icon: 'layers', group: 'Ir a', href: '/#servicios' },
+  { label: 'Contacto', icon: 'send', group: 'Ir a', href: '/contacto' },
+  { label: 'Copiar correo', icon: 'copy', group: 'Acciones', action: 'copy-email' },
+  { label: 'Descargar CV', icon: 'download', group: 'Acciones', action: 'download-cv' },
+  { label: 'Cambiar tema', icon: 'sun-moon', group: 'Acciones', action: 'toggle-theme' },
+  ...personal.socials.map((social) => ({
+    label: social.name,
+    icon: `brand:${social.icon}`,
+    group: 'Redes',
+    href: social.url,
+    external: true,
+  })),
+];
+---
+
+<dialog class="palette" id="palette" aria-label="Paleta de comandos" data-email={personal.email} data-cv={personal.cv}>
+  <div class="search">
+    <Icon name="search" size={18} />
+    <input
+      type="text"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-list"
+      aria-autocomplete="list"
+      aria-label="Buscar un comando"
+      placeholder="Escribe un comando…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <kbd>esc</kbd>
+  </div>
+
+  <ul id="palette-list" role="listbox" class="list" aria-label="Comandos">
+    {commands.map((command, index) => (
+      <li
+        id={`cmd-${index}`}
+        role="option"
+        aria-selected="false"
+        data-href={command.href}
+        data-action={command.action}
+        data-external={command.external ? '' : undefined}
+        data-group={command.group}
+      >
+        <Icon name={command.icon} size={16} />
+        <span class="label">{command.label}</span>
+        <span class="group">{command.group}</span>
+      </li>
+    ))}
+  </ul>
+  <p class="empty" hidden>Sin resultados</p>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('palette') as HTMLDialogElement | null;
+
+  if (dialog) {
+    const input = dialog.querySelector('input')!;
+    const options = [...dialog.querySelectorAll<HTMLLIElement>('[role="option"]')];
+    const empty = dialog.querySelector<HTMLElement>('.empty')!;
+    let active = 0;
+
+    const visible = () => options.filter((option) => !option.hidden);
+
+    const select = (index: number) => {
+      const list = visible();
+      if (!list.length) return input.removeAttribute('aria-activedescendant');
+      active = (index + list.length) % list.length;
+      options.forEach((option) => option.setAttribute('aria-selected', String(option === list[active])));
+      input.setAttribute('aria-activedescendant', list[active].id);
+      list[active].scrollIntoView({ block: 'nearest' });
+    };
+
+    const filter = () => {
+      const query = input.value.trim().toLowerCase();
+      options.forEach((option) => {
+        option.hidden = !option.textContent!.toLowerCase().includes(query);
+      });
+      empty.hidden = visible().length > 0;
+      select(0);
+    };
+
+    const open = () => {
+      input.value = '';
+      filter();
+      dialog.showModal();
+    };
+
+    const run = async (option: HTMLLIElement) => {
+      const { href, action } = option.dataset;
+      if (action === 'copy-email') {
+        const label = option.querySelector('.label')!;
+        try {
+          await navigator.clipboard.writeText(dialog.dataset.email!);
+          label.textContent = 'Correo copiado ✓';
+        } catch {
+          label.textContent = dialog.dataset.email!;
+        }
+        setTimeout(() => (label.textContent = 'Copiar correo'), 1600);
+        return;
+      }
+      dialog.close();
+      if (action === 'toggle-theme') document.getElementById('theme-toggle')?.click();
+      if (action === 'download-cv') {
+        const link = Object.assign(document.createElement('a'), { href: dialog.dataset.cv, download: '' });
+        link.click();
+      }
+      if (href) {
+        if ('external' in option.dataset) window.open(href, '_blank', 'noopener');
+        else location.href = href;
+      }
+    };
+
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        dialog.open ? dialog.close() : open();
+      }
+    });
+    document.querySelectorAll('[data-open-palette]').forEach((button) => button.addEventListener('click', open));
+
+    input.addEventListener('input', filter);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        select(active + (event.key === 'ArrowDown' ? 1 : -1));
+      } else if (event.key === 'Enter') {
+        const option = visible()[active];
+        if (option) run(option);
+      }
+    });
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => run(option));
+      option.addEventListener('pointermove', () => select(visible().indexOf(option)));
+    });
+
+    // Clic en el fondo cierra.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>
+
+<style>
+  .palette {
+    width: min(560px, calc(100vw - 2rem));
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.35);
+  }
+
+  .palette::backdrop {
+    background: color-mix(in oklab, var(--bg) 55%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--line);
+    color: var(--subtle);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--ink);
+    outline: none;
+  }
+
+  kbd {
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .list {
+    max-height: min(360px, 55vh);
+    overflow-y: auto;
+    padding: var(--space-2);
+    margin: 0;
+    list-style: none;
+  }
+
+  [role='option'] {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.6rem var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  [role='option'][hidden] {
+    display: none;
+  }
+
+  [role='option'][aria-selected='true'] {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  [role='option'][aria-selected='true'] .icon {
+    color: var(--accent);
+  }
+
+  .label {
+    flex: 1;
+  }
+
+  .group,
+  .empty {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--subtle);
+  }
+
+  .empty {
+    padding: var(--space-5);
+    text-align: center;
+  }
+</style>

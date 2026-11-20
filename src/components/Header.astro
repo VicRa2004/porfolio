@@ -31,6 +31,10 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     </nav>
 
     <div class="actions">
+      <button type="button" class="palette-trigger" data-open-palette aria-label="Abrir paleta de comandos" aria-keyshortcuts="Control+K">
+        <Icon name="search" size={16} />
+        <kbd aria-hidden="true">Ctrl K</kbd>
+      </button>
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar a tema oscuro">
         <Icon name="moon" class="moon" />
         <Icon name="sun" class="sun" />
@@ -90,6 +94,7 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     gap: var(--space-3);
     font-family: var(--font-display);
     font-weight: 600;
+    white-space: nowrap;
   }
 
   .mark {
@@ -143,6 +148,46 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     display: flex;
     align-items: center;
     gap: var(--space-2);
+  }
+
+  .palette-trigger {
+    display: none; /* en pantallas angostas no cabe y sin teclado aporta poco */
+    align-items: center;
+    gap: var(--space-2);
+    height: 40px;
+    padding-inline: 0.7rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+
+  @media (min-width: 480px) {
+    .palette-trigger {
+      display: inline-flex;
+    }
+  }
+
+  .palette-trigger:hover {
+    color: var(--ink);
+    background-color: var(--accent-soft);
+  }
+
+  .palette-trigger kbd {
+    display: none;
+    padding: 0.05rem 0.35rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  @media (min-width: 1000px) {
+    .palette-trigger kbd {
+      display: inline;
+    }
   }
 
   .theme-toggle {
