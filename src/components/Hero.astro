@@ -7,8 +7,7 @@ const firstNames = personal.shortName;
 ---
 
 <section class="hero container" aria-labelledby="hero-title" data-sky>
-  <pre class="sky sky-back" aria-hidden="true"></pre>
-  <pre class="sky sky-front" aria-hidden="true"></pre>
+  <canvas class="sky-canvas" aria-hidden="true"></canvas>
 
   <p class="eyebrow reveal" style="--i: 0">{personal.role} · {personal.location}</p>
 
@@ -52,116 +51,13 @@ const firstNames = personal.shortName;
 </section>
 
 <script>
-  import { createSky, launchComet, renderSky, SYSTEM_COLS, SYSTEM_ROWS, type Sky } from '../scripts/ascii-space';
+  import { mountCosmos } from '../scripts/cosmos-engine';
 
   const hero = document.querySelector<HTMLElement>('[data-sky]');
-  const back = hero?.querySelector<HTMLPreElement>('.sky-back');
-  const front = hero?.querySelector<HTMLPreElement>('.sky-front');
-  const title = hero?.querySelector<HTMLElement>('.title');
+  const canvas = hero?.querySelector<HTMLCanvasElement>('.sky-canvas');
 
-  if (hero && back && front && title) {
-    const animate = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const wide = matchMedia('(min-width: 1100px)');
-    const FRAME_MS = 1000 / 24;
-
-    let cell = { w: 0, h: 0 };
-    let sky: Sky = createSky(0, 0);
-    let system: { x: number; y: number } | null = null;
-    // Tiempo simulado: se frena al pasar el cursor por el sistema.
-    let time = 8;
-    let speed = 1;
-    let targetSpeed = 1;
-
-    const draw = () => {
-      const scene = renderSky(sky, time, system, animate);
-      back.textContent = scene.back;
-      front.textContent = scene.front;
-    };
-
-    const layout = () => {
-      const probe = document.createElement('span');
-      probe.textContent = '0'.repeat(100);
-      back.replaceChildren(probe);
-      cell = { w: probe.getBoundingClientRect().width / 100, h: parseFloat(getComputedStyle(back).lineHeight) };
-      const [cols, rows] = [Math.ceil(hero.clientWidth / cell.w), Math.ceil(hero.clientHeight / cell.h)];
-      sky = createSky(cols, rows, blockedCells(cols, rows));
-      const gutter = parseFloat(getComputedStyle(hero).paddingRight);
-      system = wide.matches
-        ? { x: Math.floor((hero.clientWidth - gutter) / cell.w) - SYSTEM_COLS, y: Math.round(title.offsetTop / cell.h) - 1 }
-        : null;
-      draw();
-    };
-
-    // Celdas que tapa el texto (línea por línea, no la caja entera) y los controles, con un margen de una celda.
-    const blockedCells = (cols: number, rows: number) => {
-      const blocked = new Uint8Array(cols * rows);
-      const origin = hero.getBoundingClientRect();
-      const rects = [...hero.querySelectorAll('.eyebrow, .title, .bio, .cta a, .meta li')].flatMap((el) => {
-        const range = document.createRange();
-        range.selectNodeContents(el);
-        return el.matches('a, li') ? [el.getBoundingClientRect()] : [...range.getClientRects()];
-      });
-      for (const rect of rects) {
-        const [x0, x1] = [Math.floor((rect.left - origin.left) / cell.w) - 1, Math.ceil((rect.right - origin.left) / cell.w) + 1];
-        const [y0, y1] = [Math.floor((rect.top - origin.top) / cell.h), Math.ceil((rect.bottom - origin.top) / cell.h)];
-        for (let y = Math.max(0, y0); y < Math.min(rows, y1); y++) blocked.fill(1, y * cols + Math.max(0, x0), y * cols + Math.min(cols, x1));
-      }
-      return blocked;
-    };
-
-    const cellAt = (event: MouseEvent) => {
-      const rect = hero.getBoundingClientRect();
-      return { col: (event.clientX - rect.left) / cell.w, row: (event.clientY - rect.top) / cell.h };
-    };
-
-    layout();
-    document.fonts.ready.then(layout);
-    new ResizeObserver(layout).observe(hero);
-    // Al acabar la entrada (el texto sube 12px) se vuelven a medir las zonas tapadas, sin mover las estrellas.
-    hero.addEventListener('animationend', () => {
-      sky.blocked = blockedCells(sky.cols, sky.rows);
-      sky.stars = sky.stars.filter((star) => !sky.blocked[star.y * sky.cols + star.x]);
-      draw();
-    });
-
-    if (animate) {
-      let frame = 0;
-      let last = performance.now();
-      let sinceDraw = 0;
-      const tick = (now: number) => {
-        const dt = Math.min(0.1, (now - last) / 1000);
-        last = now;
-        speed += (targetSpeed - speed) * Math.min(1, dt * 3);
-        time += dt * speed;
-        sinceDraw += dt * 1000;
-        if (sinceDraw >= FRAME_MS) {
-          sinceDraw = 0;
-          draw();
-        }
-        frame = requestAnimationFrame(tick);
-      };
-      // Sólo anima mientras el hero se ve.
-      new IntersectionObserver(([entry]) => {
-        cancelAnimationFrame(frame);
-        last = performance.now();
-        if (entry.isIntersecting) frame = requestAnimationFrame(tick);
-      }).observe(hero);
-
-      hero.addEventListener('pointermove', (event) => {
-        const { col, row } = cellAt(event);
-        const overSystem =
-          system && col >= system.x && col <= system.x + SYSTEM_COLS && row >= system.y && row <= system.y + SYSTEM_ROWS;
-        targetSpeed = overSystem ? 0.15 : 1;
-      });
-      hero.addEventListener('pointerleave', () => (targetSpeed = 1));
-
-      // Clic en el cielo: estrella fugaz desde ese punto.
-      hero.addEventListener('click', (event) => {
-        if ((event.target as Element).closest('a, button') || String(getSelection())) return;
-        const { col, row } = cellAt(event);
-        launchComet(sky, col, row, time);
-      });
-    }
+  if (hero && canvas) {
+    mountCosmos(hero, canvas);
   }
 </script>
 
@@ -172,31 +68,21 @@ const firstNames = personal.shortName;
     padding-block: clamp(3.5rem, 10vw, 8rem) clamp(3rem, 7vw, 5.5rem);
   }
 
-  .sky {
+  .sky-canvas {
     position: absolute;
     inset: 0;
     z-index: -1;
-    margin: 0;
-    overflow: hidden;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    line-height: 12px;
-    white-space: pre;
-    user-select: none;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-  }
-
-  .sky-back {
-    color: var(--subtle);
-    opacity: 0.6;
-    /* Se desvanece en los bordes para no cortar el cielo en seco */
-    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent),
-      linear-gradient(to bottom, #000 65%, transparent);
+    user-select: none;
+    /* Se desvanece suavemente en los bordes para integrarse con el fondo */
+    mask-image: linear-gradient(to right, transparent, #000 7%, #000 94%, transparent),
+      linear-gradient(to bottom, #000 75%, transparent);
     mask-composite: intersect;
-  }
-
-  .sky-front {
-    color: var(--accent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 94%, transparent),
+      linear-gradient(to bottom, #000 75%, transparent);
+    -webkit-mask-composite: source-in;
   }
 
   .title {

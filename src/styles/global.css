@@ -314,6 +314,21 @@ textarea {
     navigation: auto;
   }
 
+  /* Onda circular al alternar tema claro/oscuro sin afectar la navegación entre páginas */
+  :root.theme-transitioning::view-transition-old(root),
+  :root.theme-transitioning::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  :root.theme-transitioning::view-transition-old(root) {
+    z-index: 1;
+  }
+
+  :root.theme-transitioning::view-transition-new(root) {
+    z-index: 9999;
+  }
+
   .reveal {
     animation: reveal 0.7s var(--ease-out) both;
     animation-delay: calc(var(--i, 0) * 70ms);
